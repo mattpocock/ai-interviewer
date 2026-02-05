@@ -8,35 +8,35 @@ import {
 } from "../errors.js";
 
 export interface DocumentService {
-  readonly getById: (
-    id: string,
-    userId: string
-  ) => Effect.Effect<
+  readonly getById: (params: {
+    id: string;
+    userId: string;
+  }) => Effect.Effect<
     Document,
     DocumentNotFoundError | InterviewNotFoundError | UnauthorizedError
   >;
-  readonly listByInterview: (
-    interviewId: string,
-    userId: string
-  ) => Effect.Effect<Document[], InterviewNotFoundError | UnauthorizedError>;
-  readonly create: (
-    interviewId: string,
-    userId: string,
-    title: string,
-    content: string
-  ) => Effect.Effect<Document, InterviewNotFoundError | UnauthorizedError>;
-  readonly update: (
-    id: string,
-    userId: string,
-    data: { title?: string; content?: string }
-  ) => Effect.Effect<
+  readonly listByInterview: (params: {
+    interviewId: string;
+    userId: string;
+  }) => Effect.Effect<Document[], InterviewNotFoundError | UnauthorizedError>;
+  readonly create: (params: {
+    interviewId: string;
+    userId: string;
+    title: string;
+    content: string;
+  }) => Effect.Effect<Document, InterviewNotFoundError | UnauthorizedError>;
+  readonly update: (params: {
+    id: string;
+    userId: string;
+    data: { title?: string; content?: string };
+  }) => Effect.Effect<
     Document,
     DocumentNotFoundError | InterviewNotFoundError | UnauthorizedError
   >;
-  readonly delete: (
-    id: string,
-    userId: string
-  ) => Effect.Effect<
+  readonly delete: (params: {
+    id: string;
+    userId: string;
+  }) => Effect.Effect<
     void,
     DocumentNotFoundError | InterviewNotFoundError | UnauthorizedError
   >;
@@ -51,7 +51,13 @@ export const DocumentServiceLive = Layer.effect(
     const interviewRepo = yield* InterviewRepository;
     const documentRepo = yield* DocumentRepository;
 
-    const verifyInterviewAccess = (interviewId: string, userId: string) =>
+    const verifyInterviewAccess = ({
+      interviewId,
+      userId,
+    }: {
+      interviewId: string;
+      userId: string;
+    }) =>
       Effect.gen(function* () {
         const maybeInterview = yield* interviewRepo.findById(interviewId);
 
@@ -73,7 +79,7 @@ export const DocumentServiceLive = Layer.effect(
       });
 
     return {
-      getById: (id, userId) =>
+      getById: ({ id, userId }) =>
         Effect.gen(function* () {
           const maybeDocument = yield* documentRepo.findById(id);
 
@@ -86,28 +92,31 @@ export const DocumentServiceLive = Layer.effect(
           const document = maybeDocument.value;
 
           // Verify user has access to the parent interview
-          yield* verifyInterviewAccess(document.interviewId, userId);
+          yield* verifyInterviewAccess({
+            interviewId: document.interviewId,
+            userId,
+          });
 
           return document;
         }),
 
-      listByInterview: (interviewId, userId) =>
+      listByInterview: ({ interviewId, userId }) =>
         Effect.gen(function* () {
           // Verify user has access to the interview
-          yield* verifyInterviewAccess(interviewId, userId);
+          yield* verifyInterviewAccess({ interviewId, userId });
 
           return yield* documentRepo.findByInterviewId(interviewId);
         }),
 
-      create: (interviewId, userId, title, content) =>
+      create: ({ interviewId, userId, title, content }) =>
         Effect.gen(function* () {
           // Verify user has access to the interview
-          yield* verifyInterviewAccess(interviewId, userId);
+          yield* verifyInterviewAccess({ interviewId, userId });
 
           return yield* documentRepo.create({ interviewId, title, content });
         }),
 
-      update: (id, userId, data) =>
+      update: ({ id, userId, data }) =>
         Effect.gen(function* () {
           const maybeDocument = yield* documentRepo.findById(id);
 
@@ -118,7 +127,10 @@ export const DocumentServiceLive = Layer.effect(
           }
 
           // Verify user has access to the parent interview
-          yield* verifyInterviewAccess(maybeDocument.value.interviewId, userId);
+          yield* verifyInterviewAccess({
+            interviewId: maybeDocument.value.interviewId,
+            userId,
+          });
 
           const updated = yield* documentRepo.update(id, data);
 
@@ -131,7 +143,7 @@ export const DocumentServiceLive = Layer.effect(
           return updated.value;
         }),
 
-      delete: (id, userId) =>
+      delete: ({ id, userId }) =>
         Effect.gen(function* () {
           const maybeDocument = yield* documentRepo.findById(id);
 
@@ -142,7 +154,10 @@ export const DocumentServiceLive = Layer.effect(
           }
 
           // Verify user has access to the parent interview
-          yield* verifyInterviewAccess(maybeDocument.value.interviewId, userId);
+          yield* verifyInterviewAccess({
+            interviewId: maybeDocument.value.interviewId,
+            userId,
+          });
 
           yield* documentRepo.delete(id);
         }),

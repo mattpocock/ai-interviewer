@@ -46,15 +46,18 @@ describe("MessageService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* messageService.create(
-            take.id,
-            "user-1",
-            "user",
-            "Hello, this is my first message",
-            []
-          );
+          return yield* messageService.create({
+            takeId: take.id,
+            userId: "user-1",
+            role: "user",
+            content: "Hello, this is my first message",
+            enabledDocumentIds: [],
+          });
         })
       );
 
@@ -78,15 +81,18 @@ describe("MessageService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* messageService.create(
-            take.id,
-            "user-1",
-            "user",
-            "Message with docs",
-            ["doc-1", "doc-2"]
-          );
+          return yield* messageService.create({
+            takeId: take.id,
+            userId: "user-1",
+            role: "user",
+            content: "Message with docs",
+            enabledDocumentIds: ["doc-1", "doc-2"],
+          });
         })
       );
 
@@ -106,15 +112,18 @@ describe("MessageService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* messageService.create(
-            take.id,
-            "user-1",
-            "assistant",
-            "I am the AI assistant",
-            []
-          );
+          return yield* messageService.create({
+            takeId: take.id,
+            userId: "user-1",
+            role: "assistant",
+            content: "I am the AI assistant",
+            enabledDocumentIds: [],
+          });
         })
       );
 
@@ -126,13 +135,13 @@ describe("MessageService", () => {
         Effect.gen(function* () {
           const messageService = yield* MessageService;
 
-          return yield* messageService.create(
-            "non-existent-take",
-            "user-1",
-            "user",
-            "Hello",
-            []
-          );
+          return yield* messageService.create({
+            takeId: "non-existent-take",
+            userId: "user-1",
+            role: "user",
+            content: "Hello",
+            enabledDocumentIds: [],
+          });
         })
       );
 
@@ -159,15 +168,18 @@ describe("MessageService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* messageService.create(
-            take.id,
-            "user-2", // Different user
-            "user",
-            "Hello",
-            []
-          );
+          return yield* messageService.create({
+            takeId: take.id,
+            userId: "user-2", // Different user
+            role: "user",
+            content: "Hello",
+            enabledDocumentIds: [],
+          });
         })
       );
 
@@ -196,9 +208,15 @@ describe("MessageService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* messageService.listByTake(take.id, "user-1");
+          return yield* messageService.listByTake({
+            takeId: take.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -218,31 +236,37 @@ describe("MessageService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          yield* messageService.create(
-            take.id,
-            "user-1",
-            "user",
-            "First message",
-            []
-          );
-          yield* messageService.create(
-            take.id,
-            "user-1",
-            "assistant",
-            "Second message",
-            []
-          );
-          yield* messageService.create(
-            take.id,
-            "user-1",
-            "user",
-            "Third message",
-            []
-          );
+          yield* messageService.create({
+            takeId: take.id,
+            userId: "user-1",
+            role: "user",
+            content: "First message",
+            enabledDocumentIds: [],
+          });
+          yield* messageService.create({
+            takeId: take.id,
+            userId: "user-1",
+            role: "assistant",
+            content: "Second message",
+            enabledDocumentIds: [],
+          });
+          yield* messageService.create({
+            takeId: take.id,
+            userId: "user-1",
+            role: "user",
+            content: "Third message",
+            enabledDocumentIds: [],
+          });
 
-          return yield* messageService.listByTake(take.id, "user-1");
+          return yield* messageService.listByTake({
+            takeId: take.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -265,25 +289,34 @@ describe("MessageService", () => {
             description: null,
           });
 
-          const take1 = yield* takeService.create(interview.id, "user-1");
-          const take2 = yield* takeService.create(interview.id, "user-1");
+          const take1 = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
+          const take2 = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          yield* messageService.create(
-            take1.id,
-            "user-1",
-            "user",
-            "Take 1 message",
-            []
-          );
-          yield* messageService.create(
-            take2.id,
-            "user-1",
-            "user",
-            "Take 2 message",
-            []
-          );
+          yield* messageService.create({
+            takeId: take1.id,
+            userId: "user-1",
+            role: "user",
+            content: "Take 1 message",
+            enabledDocumentIds: [],
+          });
+          yield* messageService.create({
+            takeId: take2.id,
+            userId: "user-1",
+            role: "user",
+            content: "Take 2 message",
+            enabledDocumentIds: [],
+          });
 
-          return yield* messageService.listByTake(take1.id, "user-1");
+          return yield* messageService.listByTake({
+            takeId: take1.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -296,10 +329,10 @@ describe("MessageService", () => {
         Effect.gen(function* () {
           const messageService = yield* MessageService;
 
-          return yield* messageService.listByTake(
-            "non-existent-take",
-            "user-1"
-          );
+          return yield* messageService.listByTake({
+            takeId: "non-existent-take",
+            userId: "user-1",
+          });
         })
       );
 
@@ -326,12 +359,15 @@ describe("MessageService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* messageService.listByTake(
-            take.id,
-            "user-2" // Different user
-          );
+          return yield* messageService.listByTake({
+            takeId: take.id,
+            userId: "user-2", // Different user
+          });
         })
       );
 

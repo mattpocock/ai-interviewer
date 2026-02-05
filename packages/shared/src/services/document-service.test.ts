@@ -44,12 +44,12 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          return yield* documentService.create(
-            interview.id,
-            "user-1",
-            "My Document",
-            "Some content here"
-          );
+          return yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "My Document",
+            content: "Some content here",
+          });
         })
       );
 
@@ -65,12 +65,12 @@ describe("DocumentService", () => {
         Effect.gen(function* () {
           const documentService = yield* DocumentService;
 
-          return yield* documentService.create(
-            "non-existent-interview",
-            "user-1",
-            "My Document",
-            "Content"
-          );
+          return yield* documentService.create({
+            interviewId: "non-existent-interview",
+            userId: "user-1",
+            title: "My Document",
+            content: "Content",
+          });
         })
       );
 
@@ -96,12 +96,12 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          return yield* documentService.create(
-            interview.id,
-            "user-2", // Different user
-            "My Document",
-            "Content"
-          );
+          return yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-2", // Different user
+            title: "My Document",
+            content: "Content",
+          });
         })
       );
 
@@ -129,7 +129,10 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          return yield* documentService.listByInterview(interview.id, "user-1");
+          return yield* documentService.listByInterview({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -148,20 +151,23 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          yield* documentService.create(
-            interview.id,
-            "user-1",
-            "Doc 1",
-            "Content 1"
-          );
-          yield* documentService.create(
-            interview.id,
-            "user-1",
-            "Doc 2",
-            "Content 2"
-          );
+          yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "Doc 1",
+            content: "Content 1",
+          });
+          yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "Doc 2",
+            content: "Content 2",
+          });
 
-          return yield* documentService.listByInterview(interview.id, "user-1");
+          return yield* documentService.listByInterview({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -174,10 +180,10 @@ describe("DocumentService", () => {
         Effect.gen(function* () {
           const documentService = yield* DocumentService;
 
-          return yield* documentService.listByInterview(
-            "non-existent-interview",
-            "user-1"
-          );
+          return yield* documentService.listByInterview({
+            interviewId: "non-existent-interview",
+            userId: "user-1",
+          });
         })
       );
 
@@ -202,10 +208,10 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          return yield* documentService.listByInterview(
-            interview.id,
-            "user-2" // Different user
-          );
+          return yield* documentService.listByInterview({
+            interviewId: interview.id,
+            userId: "user-2", // Different user
+          });
         })
       );
 
@@ -232,14 +238,17 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          const document = yield* documentService.create(
-            interview.id,
-            "user-1",
-            "My Document",
-            "Content"
-          );
+          const document = yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "My Document",
+            content: "Content",
+          });
 
-          return yield* documentService.getById(document.id, "user-1");
+          return yield* documentService.getById({
+            id: document.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -252,7 +261,10 @@ describe("DocumentService", () => {
         Effect.gen(function* () {
           const documentService = yield* DocumentService;
 
-          return yield* documentService.getById("non-existent-doc", "user-1");
+          return yield* documentService.getById({
+            id: "non-existent-doc",
+            userId: "user-1",
+          });
         })
       );
 
@@ -281,14 +293,17 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          const document = yield* documentService.create(
-            interview.id,
-            "user-1",
-            "My Document",
-            "Content"
-          );
+          const document = yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "My Document",
+            content: "Content",
+          });
 
-          return yield* documentService.getById(document.id, "user-2");
+          return yield* documentService.getById({
+            id: document.id,
+            userId: "user-2",
+          });
         })
       );
 
@@ -315,15 +330,17 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          const document = yield* documentService.create(
-            interview.id,
-            "user-1",
-            "Original Title",
-            "Content"
-          );
+          const document = yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "Original Title",
+            content: "Content",
+          });
 
-          return yield* documentService.update(document.id, "user-1", {
-            title: "New Title",
+          return yield* documentService.update({
+            id: document.id,
+            userId: "user-1",
+            data: { title: "New Title" },
           });
         })
       );
@@ -344,15 +361,17 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          const document = yield* documentService.create(
-            interview.id,
-            "user-1",
-            "My Document",
-            "Original content"
-          );
+          const document = yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "My Document",
+            content: "Original content",
+          });
 
-          return yield* documentService.update(document.id, "user-1", {
-            content: "New content",
+          return yield* documentService.update({
+            id: document.id,
+            userId: "user-1",
+            data: { content: "New content" },
           });
         })
       );
@@ -366,8 +385,10 @@ describe("DocumentService", () => {
         Effect.gen(function* () {
           const documentService = yield* DocumentService;
 
-          return yield* documentService.update("non-existent-doc", "user-1", {
-            title: "New Title",
+          return yield* documentService.update({
+            id: "non-existent-doc",
+            userId: "user-1",
+            data: { title: "New Title" },
           });
         })
       );
@@ -393,15 +414,17 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          const document = yield* documentService.create(
-            interview.id,
-            "user-1",
-            "My Document",
-            "Content"
-          );
+          const document = yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "My Document",
+            content: "Content",
+          });
 
-          return yield* documentService.update(document.id, "user-2", {
-            title: "Hacked Title",
+          return yield* documentService.update({
+            id: document.id,
+            userId: "user-2",
+            data: { title: "Hacked Title" },
           });
         })
       );
@@ -429,17 +452,23 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          const document = yield* documentService.create(
-            interview.id,
-            "user-1",
-            "My Document",
-            "Content"
-          );
+          const document = yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "My Document",
+            content: "Content",
+          });
 
-          yield* documentService.delete(document.id, "user-1");
+          yield* documentService.delete({
+            id: document.id,
+            userId: "user-1",
+          });
 
           // Verify it's gone
-          return yield* documentService.listByInterview(interview.id, "user-1");
+          return yield* documentService.listByInterview({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -451,7 +480,10 @@ describe("DocumentService", () => {
         Effect.gen(function* () {
           const documentService = yield* DocumentService;
 
-          return yield* documentService.delete("non-existent-doc", "user-1");
+          return yield* documentService.delete({
+            id: "non-existent-doc",
+            userId: "user-1",
+          });
         })
       );
 
@@ -476,14 +508,17 @@ describe("DocumentService", () => {
             description: null,
           });
 
-          const document = yield* documentService.create(
-            interview.id,
-            "user-1",
-            "My Document",
-            "Content"
-          );
+          const document = yield* documentService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+            title: "My Document",
+            content: "Content",
+          });
 
-          return yield* documentService.delete(document.id, "user-2");
+          return yield* documentService.delete({
+            id: document.id,
+            userId: "user-2",
+          });
         })
       );
 

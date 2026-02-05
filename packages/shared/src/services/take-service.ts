@@ -8,26 +8,26 @@ import {
 } from "../errors.js";
 
 export interface TakeService {
-  readonly getById: (
-    id: string,
-    userId: string
-  ) => Effect.Effect<
+  readonly getById: (params: {
+    id: string;
+    userId: string;
+  }) => Effect.Effect<
     Take,
     TakeNotFoundError | InterviewNotFoundError | UnauthorizedError
   >;
-  readonly listByInterview: (
-    interviewId: string,
-    userId: string
-  ) => Effect.Effect<Take[], InterviewNotFoundError | UnauthorizedError>;
-  readonly create: (
-    interviewId: string,
-    userId: string
-  ) => Effect.Effect<Take, InterviewNotFoundError | UnauthorizedError>;
-  readonly updateStage: (
-    id: string,
-    userId: string,
-    stage: TakeStage
-  ) => Effect.Effect<
+  readonly listByInterview: (params: {
+    interviewId: string;
+    userId: string;
+  }) => Effect.Effect<Take[], InterviewNotFoundError | UnauthorizedError>;
+  readonly create: (params: {
+    interviewId: string;
+    userId: string;
+  }) => Effect.Effect<Take, InterviewNotFoundError | UnauthorizedError>;
+  readonly updateStage: (params: {
+    id: string;
+    userId: string;
+    stage: TakeStage;
+  }) => Effect.Effect<
     Take,
     TakeNotFoundError | InterviewNotFoundError | UnauthorizedError
   >;
@@ -41,7 +41,13 @@ export const TakeServiceLive = Layer.effect(
     const interviewRepo = yield* InterviewRepository;
     const takeRepo = yield* TakeRepository;
 
-    const verifyInterviewAccess = (interviewId: string, userId: string) =>
+    const verifyInterviewAccess = ({
+      interviewId,
+      userId,
+    }: {
+      interviewId: string;
+      userId: string;
+    }) =>
       Effect.gen(function* () {
         const maybeInterview = yield* interviewRepo.findById(interviewId);
 
@@ -63,7 +69,7 @@ export const TakeServiceLive = Layer.effect(
       });
 
     return {
-      getById: (id, userId) =>
+      getById: ({ id, userId }) =>
         Effect.gen(function* () {
           const maybeTake = yield* takeRepo.findById(id);
 
@@ -74,23 +80,26 @@ export const TakeServiceLive = Layer.effect(
           const take = maybeTake.value;
 
           // Verify user has access to the parent interview
-          yield* verifyInterviewAccess(take.interviewId, userId);
+          yield* verifyInterviewAccess({
+            interviewId: take.interviewId,
+            userId,
+          });
 
           return take;
         }),
 
-      listByInterview: (interviewId, userId) =>
+      listByInterview: ({ interviewId, userId }) =>
         Effect.gen(function* () {
           // Verify user has access to the interview
-          yield* verifyInterviewAccess(interviewId, userId);
+          yield* verifyInterviewAccess({ interviewId, userId });
 
           return yield* takeRepo.findByInterviewId(interviewId);
         }),
 
-      create: (interviewId, userId) =>
+      create: ({ interviewId, userId }) =>
         Effect.gen(function* () {
           // Verify user has access to the interview
-          yield* verifyInterviewAccess(interviewId, userId);
+          yield* verifyInterviewAccess({ interviewId, userId });
 
           return yield* takeRepo.create({
             interviewId,
@@ -98,7 +107,7 @@ export const TakeServiceLive = Layer.effect(
           });
         }),
 
-      updateStage: (id, userId, stage) =>
+      updateStage: ({ id, userId, stage }) =>
         Effect.gen(function* () {
           const maybeTake = yield* takeRepo.findById(id);
 
@@ -107,7 +116,10 @@ export const TakeServiceLive = Layer.effect(
           }
 
           // Verify user has access to the parent interview
-          yield* verifyInterviewAccess(maybeTake.value.interviewId, userId);
+          yield* verifyInterviewAccess({
+            interviewId: maybeTake.value.interviewId,
+            userId,
+          });
 
           const updated = yield* takeRepo.updateStage(id, stage);
 

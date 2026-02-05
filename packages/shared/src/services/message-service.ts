@@ -12,20 +12,20 @@ import {
 } from "../errors.js";
 
 export interface MessageService {
-  readonly listByTake: (
-    takeId: string,
-    userId: string
-  ) => Effect.Effect<
+  readonly listByTake: (params: {
+    takeId: string;
+    userId: string;
+  }) => Effect.Effect<
     Message[],
     TakeNotFoundError | InterviewNotFoundError | UnauthorizedError
   >;
-  readonly create: (
-    takeId: string,
-    userId: string,
-    role: MessageRole,
-    content: string,
-    enabledDocumentIds: string[]
-  ) => Effect.Effect<
+  readonly create: (params: {
+    takeId: string;
+    userId: string;
+    role: MessageRole;
+    content: string;
+    enabledDocumentIds: string[];
+  }) => Effect.Effect<
     Message,
     TakeNotFoundError | InterviewNotFoundError | UnauthorizedError
   >;
@@ -41,7 +41,13 @@ export const MessageServiceLive = Layer.effect(
     const takeRepo = yield* TakeRepository;
     const messageRepo = yield* MessageRepository;
 
-    const verifyTakeAccess = (takeId: string, userId: string) =>
+    const verifyTakeAccess = ({
+      takeId,
+      userId,
+    }: {
+      takeId: string;
+      userId: string;
+    }) =>
       Effect.gen(function* () {
         const maybeTake = yield* takeRepo.findById(takeId);
 
@@ -72,18 +78,18 @@ export const MessageServiceLive = Layer.effect(
       });
 
     return {
-      listByTake: (takeId, userId) =>
+      listByTake: ({ takeId, userId }) =>
         Effect.gen(function* () {
           // Verify user has access to the take
-          yield* verifyTakeAccess(takeId, userId);
+          yield* verifyTakeAccess({ takeId, userId });
 
           return yield* messageRepo.findByTakeId(takeId);
         }),
 
-      create: (takeId, userId, role, content, enabledDocumentIds) =>
+      create: ({ takeId, userId, role, content, enabledDocumentIds }) =>
         Effect.gen(function* () {
           // Verify user has access to the take
-          yield* verifyTakeAccess(takeId, userId);
+          yield* verifyTakeAccess({ takeId, userId });
 
           return yield* messageRepo.create({
             takeId,

@@ -17,7 +17,10 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 
   const program = Effect.gen(function* () {
     const service = yield* DocumentService;
-    return yield* service.listByInterview(interviewId, user.userId);
+    return yield* service.listByInterview({
+      interviewId,
+      userId: user.userId,
+    });
   });
 
   const exit = await Effect.runPromiseExit(Effect.provide(program, AppLayer));
@@ -70,12 +73,12 @@ export async function action({ request, params }: Route.ActionArgs) {
 
   const program = Effect.gen(function* () {
     const service = yield* DocumentService;
-    return yield* service.create(
+    return yield* service.create({
       interviewId,
-      user.userId,
-      body.title!,
-      body.content!
-    );
+      userId: user.userId,
+      title: body.title!,
+      content: body.content!,
+    });
   });
 
   const exit = await Effect.runPromiseExit(Effect.provide(program, AppLayer));

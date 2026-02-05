@@ -19,7 +19,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 
   const program = Effect.gen(function* () {
     const service = yield* TakeService;
-    return yield* service.getById(id, user.userId);
+    return yield* service.getById({ id, userId: user.userId });
   });
 
   const exit = await Effect.runPromiseExit(Effect.provide(program, AppLayer));
@@ -72,7 +72,11 @@ export async function action({ request, params }: Route.ActionArgs) {
 
     const program = Effect.gen(function* () {
       const service = yield* TakeService;
-      return yield* service.updateStage(id, user.userId, body.stage!);
+      return yield* service.updateStage({
+        id,
+        userId: user.userId,
+        stage: body.stage!,
+      });
     });
 
     const exit = await Effect.runPromiseExit(Effect.provide(program, AppLayer));

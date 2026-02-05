@@ -46,7 +46,10 @@ describe("TakeService", () => {
             description: null,
           });
 
-          return yield* takeService.create(interview.id, "user-1");
+          return yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -61,7 +64,10 @@ describe("TakeService", () => {
         Effect.gen(function* () {
           const takeService = yield* TakeService;
 
-          return yield* takeService.create("non-existent-interview", "user-1");
+          return yield* takeService.create({
+            interviewId: "non-existent-interview",
+            userId: "user-1",
+          });
         })
       );
 
@@ -87,10 +93,10 @@ describe("TakeService", () => {
             description: null,
           });
 
-          return yield* takeService.create(
-            interview.id,
-            "user-2" // Different user
-          );
+          return yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-2", // Different user
+          });
         })
       );
 
@@ -118,7 +124,10 @@ describe("TakeService", () => {
             description: null,
           });
 
-          return yield* takeService.listByInterview(interview.id, "user-1");
+          return yield* takeService.listByInterview({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -137,10 +146,19 @@ describe("TakeService", () => {
             description: null,
           });
 
-          yield* takeService.create(interview.id, "user-1");
-          yield* takeService.create(interview.id, "user-1");
+          yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
+          yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* takeService.listByInterview(interview.id, "user-1");
+          return yield* takeService.listByInterview({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
         })
       );
 
@@ -152,10 +170,10 @@ describe("TakeService", () => {
         Effect.gen(function* () {
           const takeService = yield* TakeService;
 
-          return yield* takeService.listByInterview(
-            "non-existent-interview",
-            "user-1"
-          );
+          return yield* takeService.listByInterview({
+            interviewId: "non-existent-interview",
+            userId: "user-1",
+          });
         })
       );
 
@@ -180,10 +198,10 @@ describe("TakeService", () => {
             description: null,
           });
 
-          return yield* takeService.listByInterview(
-            interview.id,
-            "user-2" // Different user
-          );
+          return yield* takeService.listByInterview({
+            interviewId: interview.id,
+            userId: "user-2", // Different user
+          });
         })
       );
 
@@ -210,9 +228,12 @@ describe("TakeService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* takeService.getById(take.id, "user-1");
+          return yield* takeService.getById({ id: take.id, userId: "user-1" });
         })
       );
 
@@ -224,7 +245,10 @@ describe("TakeService", () => {
         Effect.gen(function* () {
           const takeService = yield* TakeService;
 
-          return yield* takeService.getById("non-existent-take", "user-1");
+          return yield* takeService.getById({
+            id: "non-existent-take",
+            userId: "user-1",
+          });
         })
       );
 
@@ -253,9 +277,15 @@ describe("TakeService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* takeService.getById(take.id, "user-2");
+          return yield* takeService.getById({
+            id: take.id,
+            userId: "user-2",
+          });
         })
       );
 
@@ -282,10 +312,17 @@ describe("TakeService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
           expect(take.stage).toBe("pre-interview");
 
-          return yield* takeService.updateStage(take.id, "user-1", "interview");
+          return yield* takeService.updateStage({
+            id: take.id,
+            userId: "user-1",
+            stage: "interview",
+          });
         })
       );
 
@@ -297,11 +334,11 @@ describe("TakeService", () => {
         Effect.gen(function* () {
           const takeService = yield* TakeService;
 
-          return yield* takeService.updateStage(
-            "non-existent-take",
-            "user-1",
-            "interview"
-          );
+          return yield* takeService.updateStage({
+            id: "non-existent-take",
+            userId: "user-1",
+            stage: "interview",
+          });
         })
       );
 
@@ -326,13 +363,16 @@ describe("TakeService", () => {
             description: null,
           });
 
-          const take = yield* takeService.create(interview.id, "user-1");
+          const take = yield* takeService.create({
+            interviewId: interview.id,
+            userId: "user-1",
+          });
 
-          return yield* takeService.updateStage(
-            take.id,
-            "user-2", // Different user
-            "interview"
-          );
+          return yield* takeService.updateStage({
+            id: take.id,
+            userId: "user-2", // Different user
+            stage: "interview",
+          });
         })
       );
 

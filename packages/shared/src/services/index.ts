@@ -7,3 +7,5 @@ export {
   DocumentService,
   DocumentServiceLive,
 } from "./document-service.js";
+
+export { TakeService, TakeServiceLive } from "./take-service.js";

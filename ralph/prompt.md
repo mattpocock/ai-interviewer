@@ -49,6 +49,22 @@ Before committing, run the feedback loops:
 - `npm run test` to run the tests
 - `npm run typecheck` to run the type checker
 
+## Visual Verification with Playwright MCP
+
+When working on UI changes, use the Playwright MCP server to verify the application visually:
+
+1. Start the dev server if not already running (`npm run dev` in apps/web)
+2. Use Playwright MCP to navigate to the relevant page
+3. Take screenshots to verify the UI looks correct
+4. Test interactive elements (buttons, forms, navigation) work as expected
+
+Example usage:
+- "Use playwright mcp to navigate to http://localhost:3000 and take a screenshot"
+- "Use playwright mcp to click the login button and verify the form appears"
+- "Use playwright mcp to fill in the form and submit it"
+
+This visual verification helps catch UI regressions and ensures changes look correct before committing.
+
 # COMMIT
 
 Make a git commit. The commit message must:

@@ -17,7 +17,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 
   const program = Effect.gen(function* () {
     const service = yield* InterviewService;
-    return yield* service.getById(id, user.userId);
+    return yield* service.getById({ id, userId: user.userId });
   });
 
   const exit = await Effect.runPromiseExit(Effect.provide(program, AppLayer));
@@ -60,7 +60,7 @@ export async function action({ request, params }: Route.ActionArgs) {
 
     const program = Effect.gen(function* () {
       const service = yield* InterviewService;
-      return yield* service.update(id, user.userId, body);
+      return yield* service.update({ id, userId: user.userId, data: body });
     });
 
     const exit = await Effect.runPromiseExit(Effect.provide(program, AppLayer));
@@ -91,7 +91,7 @@ export async function action({ request, params }: Route.ActionArgs) {
   if (request.method === "DELETE") {
     const program = Effect.gen(function* () {
       const service = yield* InterviewService;
-      return yield* service.delete(id, user.userId);
+      return yield* service.delete({ id, userId: user.userId });
     });
 
     const exit = await Effect.runPromiseExit(Effect.provide(program, AppLayer));

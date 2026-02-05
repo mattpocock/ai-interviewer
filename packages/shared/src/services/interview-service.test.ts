@@ -24,11 +24,11 @@ describe("InterviewService", () => {
       const result = await runTest(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          return yield* service.create(
-            "user-1",
-            "My Interview",
-            "A description"
-          );
+          return yield* service.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: "A description",
+          });
         })
       );
 
@@ -44,7 +44,11 @@ describe("InterviewService", () => {
       const result = await runTest(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          return yield* service.create("user-1", "My Interview", null);
+          return yield* service.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
         })
       );
 
@@ -57,7 +61,9 @@ describe("InterviewService", () => {
       const result = await runTest(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          return yield* service.listByUser("user-with-no-interviews");
+          return yield* service.listByUser({
+            userId: "user-with-no-interviews",
+          });
         })
       );
 
@@ -69,11 +75,23 @@ describe("InterviewService", () => {
         Effect.gen(function* () {
           const service = yield* InterviewService;
 
-          yield* service.create("user-1", "Interview 1", null);
-          yield* service.create("user-1", "Interview 2", null);
-          yield* service.create("user-2", "Other User Interview", null);
+          yield* service.create({
+            userId: "user-1",
+            title: "Interview 1",
+            description: null,
+          });
+          yield* service.create({
+            userId: "user-1",
+            title: "Interview 2",
+            description: null,
+          });
+          yield* service.create({
+            userId: "user-2",
+            title: "Other User Interview",
+            description: null,
+          });
 
-          return yield* service.listByUser("user-1");
+          return yield* service.listByUser({ userId: "user-1" });
         })
       );
 
@@ -87,12 +105,12 @@ describe("InterviewService", () => {
       const result = await runTest(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create(
-            "user-1",
-            "My Interview",
-            "Description"
-          );
-          return yield* service.getById(created.id, "user-1");
+          const created = yield* service.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: "Description",
+          });
+          return yield* service.getById({ id: created.id, userId: "user-1" });
         })
       );
 
@@ -103,7 +121,10 @@ describe("InterviewService", () => {
       const exit = await runTestExit(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          return yield* service.getById("non-existent-id", "user-1");
+          return yield* service.getById({
+            id: "non-existent-id",
+            userId: "user-1",
+          });
         })
       );
 
@@ -124,8 +145,12 @@ describe("InterviewService", () => {
       const exit = await runTestExit(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create("user-1", "My Interview", null);
-          return yield* service.getById(created.id, "user-2");
+          const created = yield* service.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
+          return yield* service.getById({ id: created.id, userId: "user-2" });
         })
       );
 
@@ -145,13 +170,15 @@ describe("InterviewService", () => {
       const result = await runTest(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create(
-            "user-1",
-            "Original Title",
-            null
-          );
-          return yield* service.update(created.id, "user-1", {
-            title: "New Title",
+          const created = yield* service.create({
+            userId: "user-1",
+            title: "Original Title",
+            description: null,
+          });
+          return yield* service.update({
+            id: created.id,
+            userId: "user-1",
+            data: { title: "New Title" },
           });
         })
       );
@@ -163,9 +190,15 @@ describe("InterviewService", () => {
       const result = await runTest(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create("user-1", "My Interview", null);
-          return yield* service.update(created.id, "user-1", {
-            description: "New description",
+          const created = yield* service.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
+          return yield* service.update({
+            id: created.id,
+            userId: "user-1",
+            data: { description: "New description" },
           });
         })
       );
@@ -177,8 +210,10 @@ describe("InterviewService", () => {
       const exit = await runTestExit(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          return yield* service.update("non-existent-id", "user-1", {
-            title: "New Title",
+          return yield* service.update({
+            id: "non-existent-id",
+            userId: "user-1",
+            data: { title: "New Title" },
           });
         })
       );
@@ -196,9 +231,15 @@ describe("InterviewService", () => {
       const exit = await runTestExit(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create("user-1", "My Interview", null);
-          return yield* service.update(created.id, "user-2", {
-            title: "Hacked Title",
+          const created = yield* service.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
+          return yield* service.update({
+            id: created.id,
+            userId: "user-2",
+            data: { title: "Hacked Title" },
           });
         })
       );
@@ -218,11 +259,15 @@ describe("InterviewService", () => {
       const result = await runTest(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create("user-1", "My Interview", null);
-          yield* service.delete(created.id, "user-1");
+          const created = yield* service.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
+          yield* service.delete({ id: created.id, userId: "user-1" });
 
           // Verify it's gone
-          const list = yield* service.listByUser("user-1");
+          const list = yield* service.listByUser({ userId: "user-1" });
           return list;
         })
       );
@@ -234,7 +279,10 @@ describe("InterviewService", () => {
       const exit = await runTestExit(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          return yield* service.delete("non-existent-id", "user-1");
+          return yield* service.delete({
+            id: "non-existent-id",
+            userId: "user-1",
+          });
         })
       );
 
@@ -251,8 +299,12 @@ describe("InterviewService", () => {
       const exit = await runTestExit(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create("user-1", "My Interview", null);
-          return yield* service.delete(created.id, "user-2");
+          const created = yield* service.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
+          return yield* service.delete({ id: created.id, userId: "user-2" });
         })
       );
 

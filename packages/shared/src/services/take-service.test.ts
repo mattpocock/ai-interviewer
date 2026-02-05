@@ -40,11 +40,11 @@ describe("TakeService", () => {
           const interviewService = yield* InterviewService;
           const takeService = yield* TakeService;
 
-          const interview = yield* interviewService.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const interview = yield* interviewService.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
 
           return yield* takeService.create(interview.id, "user-1");
         })
@@ -81,11 +81,11 @@ describe("TakeService", () => {
           const interviewService = yield* InterviewService;
           const takeService = yield* TakeService;
 
-          const interview = yield* interviewService.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const interview = yield* interviewService.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
 
           return yield* takeService.create(
             interview.id,
@@ -112,11 +112,11 @@ describe("TakeService", () => {
           const interviewService = yield* InterviewService;
           const takeService = yield* TakeService;
 
-          const interview = yield* interviewService.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const interview = yield* interviewService.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
 
           return yield* takeService.listByInterview(interview.id, "user-1");
         })
@@ -131,11 +131,11 @@ describe("TakeService", () => {
           const interviewService = yield* InterviewService;
           const takeService = yield* TakeService;
 
-          const interview = yield* interviewService.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const interview = yield* interviewService.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
 
           yield* takeService.create(interview.id, "user-1");
           yield* takeService.create(interview.id, "user-1");
@@ -174,11 +174,11 @@ describe("TakeService", () => {
           const interviewService = yield* InterviewService;
           const takeService = yield* TakeService;
 
-          const interview = yield* interviewService.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const interview = yield* interviewService.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
 
           return yield* takeService.listByInterview(
             interview.id,
@@ -204,11 +204,11 @@ describe("TakeService", () => {
           const interviewService = yield* InterviewService;
           const takeService = yield* TakeService;
 
-          const interview = yield* interviewService.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const interview = yield* interviewService.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
 
           const take = yield* takeService.create(interview.id, "user-1");
 
@@ -247,11 +247,11 @@ describe("TakeService", () => {
           const interviewService = yield* InterviewService;
           const takeService = yield* TakeService;
 
-          const interview = yield* interviewService.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const interview = yield* interviewService.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
 
           const take = yield* takeService.create(interview.id, "user-1");
 
@@ -276,11 +276,11 @@ describe("TakeService", () => {
           const interviewService = yield* InterviewService;
           const takeService = yield* TakeService;
 
-          const interview = yield* interviewService.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const interview = yield* interviewService.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
 
           const take = yield* takeService.create(interview.id, "user-1");
           expect(take.stage).toBe("pre-interview");
@@ -320,11 +320,11 @@ describe("TakeService", () => {
           const interviewService = yield* InterviewService;
           const takeService = yield* TakeService;
 
-          const interview = yield* interviewService.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const interview = yield* interviewService.create({
+            userId: "user-1",
+            title: "My Interview",
+            description: null,
+          });
 
           const take = yield* takeService.create(interview.id, "user-1");
 

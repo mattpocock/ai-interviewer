@@ -12,7 +12,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
   const program = Effect.gen(function* () {
     const service = yield* InterviewService;
-    return yield* service.listByUser(user.userId);
+    return yield* service.listByUser({ userId: user.userId });
   });
 
   const exit = await Effect.runPromiseExit(Effect.provide(program, AppLayer));
@@ -50,11 +50,11 @@ export async function action({ request }: Route.ActionArgs) {
 
   const program = Effect.gen(function* () {
     const service = yield* InterviewService;
-    return yield* service.create(
-      user.userId,
-      body.title!,
-      body.description ?? null
-    );
+    return yield* service.create({
+      userId: user.userId,
+      title: body.title!,
+      description: body.description ?? null,
+    });
   });
 
   const exit = await Effect.runPromiseExit(Effect.provide(program, AppLayer));

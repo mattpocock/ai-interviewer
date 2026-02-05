@@ -12,4 +12,10 @@ export default [
   // Interview API routes
   route("api/interviews", "routes/api.interviews.ts"),
   route("api/interviews/:id", "routes/api.interviews.$id.ts"),
+  route(
+    "api/interviews/:id/documents",
+    "routes/api.interviews.$id.documents.ts"
+  ),
+  // Document API routes
+  route("api/documents/:id", "routes/api.documents.$id.ts"),
 ] satisfies RouteConfig;

@@ -28,7 +28,7 @@ TL;DR - build a tiny, end-to-end slice of the feature first, then expand it out.
 4. Polish and quick wins
 5. Refactors
 
-If all tasks are complete, output <promise>COMPLETE</promise>.
+If there are no more tasks, output <promise>NO MORE TASKS</promise>.
 
 # EXPLORATION
 

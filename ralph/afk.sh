@@ -30,7 +30,7 @@ for ((i=1; i<=$1; i++)); do
 
   result=$(jq -r "$final_result" "$tmpfile")
 
-  if [[ "$result" == *"<promise>COMPLETE</promise>"* ]]; then
+  if [[ "$result" == *"<promise>NO MORE TASKS</promise>"* ]]; then
     echo "Ralph complete after $i iterations."
     exit 0
   fi

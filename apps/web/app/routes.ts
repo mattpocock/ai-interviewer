@@ -18,4 +18,7 @@ export default [
   ),
   // Document API routes
   route("api/documents/:id", "routes/api.documents.$id.ts"),
+  // Take API routes
+  route("api/interviews/:id/takes", "routes/api.interviews.$id.takes.ts"),
+  route("api/takes/:id", "routes/api.takes.$id.ts"),
 ] satisfies RouteConfig;

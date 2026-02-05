@@ -9,3 +9,5 @@ export {
 } from "./document-service.js";
 
 export { TakeService, TakeServiceLive } from "./take-service.js";
+
+export { MessageService, MessageServiceLive } from "./message-service.js";

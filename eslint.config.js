@@ -2,7 +2,7 @@
 
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
-import signatureDesignPlugin from "eslint-plugin-signature-design";
+import signaturePlugin from "@ai-interviewer/eslint-plugin-signature";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 
@@ -54,7 +54,7 @@ export default tseslint.config(
   // General rules for all files
   {
     plugins: {
-      "signature-design": signatureDesignPlugin,
+      signature: signaturePlugin,
     },
     rules: {
       // Allow unused vars that start with underscore
@@ -67,11 +67,9 @@ export default tseslint.config(
       ],
       // Prevent multiple positional parameters of the same type
       // This catches cases like (id: string, userId: string) where args can be confused
+      // Also catches function types in interfaces (which the old plugin missed)
       // Set to "warn" until existing code is refactored to use named object parameters
-      "signature-design/max-duplicate-param-types": [
-        "warn",
-        { maxOfSameType: 1 },
-      ],
+      "signature/no-duplicate-param-types": ["warn", { maxOfSameType: 1 }],
     },
   }
 );

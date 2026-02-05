@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@ai-interviewer/eslint-plugin-signature':
+        specifier: workspace:*
+        version: link:packages/eslint-plugin-signature
       '@eslint/js':
         specifier: ^9.39.2
         version: 9.39.2
@@ -20,9 +23,6 @@ importers:
       eslint-plugin-react-hooks:
         specifier: ^7.0.1
         version: 7.0.1(eslint@9.39.2)
-      eslint-plugin-signature-design:
-        specifier: ^1.0.1
-        version: 1.0.1(eslint@9.39.2)(typescript@5.9.3)
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -96,6 +96,25 @@ importers:
       vite:
         specifier: ^6.0.0
         version: 6.4.1(@types/node@25.2.0)(yaml@2.8.2)
+      vitest:
+        specifier: ^4.0.18
+        version: 4.0.18(@types/node@25.2.0)(yaml@2.8.2)
+
+  packages/eslint-plugin-signature:
+    dependencies:
+      eslint:
+        specifier: '>=9.0.0'
+        version: 9.39.2
+    devDependencies:
+      '@typescript-eslint/rule-tester':
+        specifier: ^8.54.0
+        version: 8.54.0(eslint@9.39.2)(typescript@5.9.3)
+      '@typescript-eslint/utils':
+        specifier: ^8.54.0
+        version: 8.54.0(eslint@9.39.2)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
       vitest:
         specifier: ^4.0.18
         version: 4.0.18(@types/node@25.2.0)(yaml@2.8.2)
@@ -887,6 +906,12 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.0.0'
 
+  '@typescript-eslint/rule-tester@8.54.0':
+    resolution: {integrity: sha512-+Fc1Y8xmSgdIBJXUKIjlswZ1EvSejqoayHxEfV20piWhKik+GKaJznKCz6XnCIzJLwzRlncnVjTceZohsKYvyg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0
+
   '@typescript-eslint/scope-manager@8.54.0':
     resolution: {integrity: sha512-27rYVQku26j/PbHYcVfRPonmOlVI6gihHtXFbTdB5sb6qA0wdAQAbyXFVarQ5t4HRojIz64IV90YtsjQSSGlQg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -1440,12 +1465,6 @@ packages:
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
-
-  eslint-plugin-signature-design@1.0.1:
-    resolution: {integrity: sha512-sa1lIMo3U6GB4eIDOpEl3ILaB0MFdDDYioLyTk/TEdDs/3dLsJVksJ3Es3BTgApIxNgwOxA0dOHb6OBQa/XKcg==}
-    peerDependencies:
-      eslint: ^9.0.0
-      typescript: '>=4.0.0 <6.0.0'
 
   eslint-scope@8.4.0:
     resolution: {integrity: sha512-sNXOfKCn74rt8RICKMvJS7XKV/Xk9kA7DyJr8mJik3S7Cwgy3qlkkmyS2uQB3jiJg6VNdZd/pDBJu0nvG2NlTg==}
@@ -3366,6 +3385,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/rule-tester@8.54.0(eslint@9.39.2)(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/parser': 8.54.0(eslint@9.39.2)(typescript@5.9.3)
+      '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.54.0(eslint@9.39.2)(typescript@5.9.3)
+      ajv: 6.12.6
+      eslint: 9.39.2
+      json-stable-stringify-without-jsonify: 1.0.1
+      lodash.merge: 4.6.2
+      semver: 7.7.3
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
   '@typescript-eslint/scope-manager@8.54.0':
     dependencies:
       '@typescript-eslint/types': 8.54.0
@@ -4022,11 +4055,6 @@ snapshots:
       semver: 6.3.1
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
-
-  eslint-plugin-signature-design@1.0.1(eslint@9.39.2)(typescript@5.9.3):
-    dependencies:
-      eslint: 9.39.2
-      typescript: 5.9.3
 
   eslint-scope@8.4.0:
     dependencies:

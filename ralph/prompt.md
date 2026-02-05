@@ -15,14 +15,18 @@ Make each task the smallest possible unit of work. We don't want to outrun our h
 Pick the next task. Prioritize tasks in this order:
 
 1. Critical bugfixes
-2. Tracer bullets for new features
+2. Development infrastructure
+
+Getting development infrastructure like tests and types and dev scripts ready is an important precursor to building features.
+
+3. Tracer bullets for new features
 
 Tracer bullets comes from the Pragmatic Programmer. When building systems, you want to write code that gets you feedback as quickly as possible. Tracer bullets are small slices of functionality that go through all layers of the system, allowing you to test and validate your approach early. This helps in identifying potential issues and ensures that the overall architecture is sound before investing significant time in development.
 
 TL;DR - build a tiny, end-to-end slice of the feature first, then expand it out.
 
-3. Polish and quick wins
-4. Refactors
+4. Polish and quick wins
+5. Refactors
 
 If all tasks are complete, output <promise>COMPLETE</promise>.
 

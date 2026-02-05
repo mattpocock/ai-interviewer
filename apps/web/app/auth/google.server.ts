@@ -31,10 +31,13 @@ export function createGoogleAuthUrl(): {
   return { url, state, codeVerifier };
 }
 
-export async function validateGoogleCallback(
-  code: string,
-  codeVerifier: string
-) {
+export async function validateGoogleCallback({
+  code,
+  codeVerifier,
+}: {
+  code: string;
+  codeVerifier: string;
+}) {
   const google = getGoogleClient();
   const tokens = await google.validateAuthorizationCode(code, codeVerifier);
   return tokens;

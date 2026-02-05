@@ -33,7 +33,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
   try {
     // Validate OAuth callback and get tokens
-    const tokens = await validateGoogleCallback(code, codeVerifier);
+    const tokens = await validateGoogleCallback({ code, codeVerifier });
 
     // Get user info from Google
     const googleUser = await getGoogleUserInfo(tokens.accessToken());

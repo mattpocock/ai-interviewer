@@ -91,10 +91,13 @@ const STATE_COOKIE_NAME = "oauth_state";
 const VERIFIER_COOKIE_NAME = "oauth_verifier";
 const STATE_COOKIE_MAX_AGE = 60 * 10; // 10 minutes
 
-export function createOAuthStateCookies(
-  state: string,
-  codeVerifier: string
-): string[] {
+export function createOAuthStateCookies({
+  state,
+  codeVerifier,
+}: {
+  state: string;
+  codeVerifier: string;
+}): string[] {
   const secure = process.env.NODE_ENV === "production";
   return [
     `${STATE_COOKIE_NAME}=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${STATE_COOKIE_MAX_AGE}${secure ? "; Secure" : ""}`,

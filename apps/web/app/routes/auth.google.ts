@@ -4,7 +4,7 @@ import { createOAuthStateCookies } from "~/auth/session.server";
 
 export async function loader() {
   const { url, state, codeVerifier } = createGoogleAuthUrl();
-  const stateCookies = createOAuthStateCookies(state, codeVerifier);
+  const stateCookies = createOAuthStateCookies({ state, codeVerifier });
 
   return redirect(url.toString(), {
     headers: stateCookies.map((cookie): [string, string] => [

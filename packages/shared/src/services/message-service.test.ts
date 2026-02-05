@@ -2,10 +2,7 @@ import { describe, it, expect } from "vitest";
 import { Effect, Layer, Exit } from "effect";
 import { MessageService, MessageServiceLive } from "./message-service.js";
 import { TakeService, TakeServiceLive } from "./take-service.js";
-import {
-  InterviewService,
-  InterviewServiceLive,
-} from "./interview-service.js";
+import { InterviewService, InterviewServiceLive } from "./interview-service.js";
 import {
   InterviewRepositoryMock,
   TakeRepositoryMock,

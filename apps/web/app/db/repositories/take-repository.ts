@@ -24,7 +24,10 @@ export const TakeRepositoryLive = Layer.effect(
       findById: (id) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.select().from(takes).where(eq(takes.id, id));
+            const result = await db
+              .select()
+              .from(takes)
+              .where(eq(takes.id, id));
             return Option.fromNullable(result[0] ? rowToTake(result[0]) : null);
           },
           catch: () => Option.none<Take>(),
@@ -33,7 +36,10 @@ export const TakeRepositoryLive = Layer.effect(
       findByInterviewId: (interviewId) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.select().from(takes).where(eq(takes.interviewId, interviewId));
+            const result = await db
+              .select()
+              .from(takes)
+              .where(eq(takes.interviewId, interviewId));
             return result.map(rowToTake);
           },
           catch: () => [] as Take[],

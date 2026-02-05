@@ -16,8 +16,7 @@ function createInMemoryInterviewRepository(): InterviewRepository {
   const store = new Map<string, Interview>();
 
   return {
-    findById: (id) =>
-      Effect.sync(() => Option.fromNullable(store.get(id))),
+    findById: (id) => Effect.sync(() => Option.fromNullable(store.get(id))),
 
     findByUserId: (userId) =>
       Effect.sync(() =>
@@ -51,8 +50,7 @@ function createInMemoryInterviewRepository(): InterviewRepository {
         return Option.some(updated);
       }),
 
-    delete: (id) =>
-      Effect.sync(() => store.delete(id)),
+    delete: (id) => Effect.sync(() => store.delete(id)),
   };
 }
 
@@ -60,8 +58,7 @@ function createInMemoryDocumentRepository(): DocumentRepository {
   const store = new Map<string, Document>();
 
   return {
-    findById: (id) =>
-      Effect.sync(() => Option.fromNullable(store.get(id))),
+    findById: (id) => Effect.sync(() => Option.fromNullable(store.get(id))),
 
     findByInterviewId: (interviewId) =>
       Effect.sync(() =>
@@ -95,8 +92,7 @@ function createInMemoryDocumentRepository(): DocumentRepository {
         return Option.some(updated);
       }),
 
-    delete: (id) =>
-      Effect.sync(() => store.delete(id)),
+    delete: (id) => Effect.sync(() => store.delete(id)),
   };
 }
 
@@ -104,8 +100,7 @@ function createInMemoryTakeRepository(): TakeRepository {
   const store = new Map<string, Take>();
 
   return {
-    findById: (id) =>
-      Effect.sync(() => Option.fromNullable(store.get(id))),
+    findById: (id) => Effect.sync(() => Option.fromNullable(store.get(id))),
 
     findByInterviewId: (interviewId) =>
       Effect.sync(() =>
@@ -169,8 +164,7 @@ function createInMemoryUserRepository(): UserRepository {
   const store = new Map<string, User>();
 
   return {
-    findById: (id) =>
-      Effect.sync(() => Option.fromNullable(store.get(id))),
+    findById: (id) => Effect.sync(() => Option.fromNullable(store.get(id))),
 
     findByGoogleId: (googleId) =>
       Effect.sync(() =>

@@ -1,6 +1,7 @@
 import * as jose from "jose";
 
-const JWT_SECRET = process.env.JWT_SECRET || "development-secret-change-in-production";
+const JWT_SECRET =
+  process.env.JWT_SECRET || "development-secret-change-in-production";
 const JWT_ISSUER = "ai-interviewer";
 const JWT_AUDIENCE = "ai-interviewer-users";
 const COOKIE_NAME = "session";
@@ -30,7 +31,9 @@ export async function createSession(payload: SessionPayload): Promise<string> {
   return jwt;
 }
 
-export async function verifySession(token: string): Promise<SessionPayload | null> {
+export async function verifySession(
+  token: string
+): Promise<SessionPayload | null> {
   try {
     const secret = new TextEncoder().encode(JWT_SECRET);
     const { payload } = await jose.jwtVerify(token, secret, {
@@ -59,7 +62,9 @@ export function createLogoutCookie(): string {
   return `${COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`;
 }
 
-export function getSessionFromCookie(cookieHeader: string | null): string | null {
+export function getSessionFromCookie(
+  cookieHeader: string | null
+): string | null {
   if (!cookieHeader) return null;
 
   const cookies = cookieHeader.split(";").map((c) => c.trim());
@@ -70,7 +75,9 @@ export function getSessionFromCookie(cookieHeader: string | null): string | null
   return sessionCookie.slice(COOKIE_NAME.length + 1);
 }
 
-export async function getSessionFromRequest(request: Request): Promise<SessionPayload | null> {
+export async function getSessionFromRequest(
+  request: Request
+): Promise<SessionPayload | null> {
   const cookieHeader = request.headers.get("Cookie");
   const token = getSessionFromCookie(cookieHeader);
 
@@ -84,7 +91,10 @@ const STATE_COOKIE_NAME = "oauth_state";
 const VERIFIER_COOKIE_NAME = "oauth_verifier";
 const STATE_COOKIE_MAX_AGE = 60 * 10; // 10 minutes
 
-export function createOAuthStateCookies(state: string, codeVerifier: string): string[] {
+export function createOAuthStateCookies(
+  state: string,
+  codeVerifier: string
+): string[] {
   const secure = process.env.NODE_ENV === "production";
   return [
     `${STATE_COOKIE_NAME}=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${STATE_COOKIE_MAX_AGE}${secure ? "; Secure" : ""}`,
@@ -92,17 +102,26 @@ export function createOAuthStateCookies(state: string, codeVerifier: string): st
   ];
 }
 
-export function getOAuthStateFromCookies(cookieHeader: string | null): { state: string | null; codeVerifier: string | null } {
+export function getOAuthStateFromCookies(cookieHeader: string | null): {
+  state: string | null;
+  codeVerifier: string | null;
+} {
   if (!cookieHeader) return { state: null, codeVerifier: null };
 
   const cookies = cookieHeader.split(";").map((c) => c.trim());
 
-  const stateCookie = cookies.find((c) => c.startsWith(`${STATE_COOKIE_NAME}=`));
-  const verifierCookie = cookies.find((c) => c.startsWith(`${VERIFIER_COOKIE_NAME}=`));
+  const stateCookie = cookies.find((c) =>
+    c.startsWith(`${STATE_COOKIE_NAME}=`)
+  );
+  const verifierCookie = cookies.find((c) =>
+    c.startsWith(`${VERIFIER_COOKIE_NAME}=`)
+  );
 
   return {
     state: stateCookie ? stateCookie.slice(STATE_COOKIE_NAME.length + 1) : null,
-    codeVerifier: verifierCookie ? verifierCookie.slice(VERIFIER_COOKIE_NAME.length + 1) : null,
+    codeVerifier: verifierCookie
+      ? verifierCookie.slice(VERIFIER_COOKIE_NAME.length + 1)
+      : null,
   };
 }
 

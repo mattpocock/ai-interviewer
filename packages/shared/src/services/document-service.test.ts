@@ -439,10 +439,7 @@ describe("DocumentService", () => {
           yield* documentService.delete(document.id, "user-1");
 
           // Verify it's gone
-          return yield* documentService.listByInterview(
-            interview.id,
-            "user-1"
-          );
+          return yield* documentService.listByInterview(interview.id, "user-1");
         })
       );
 

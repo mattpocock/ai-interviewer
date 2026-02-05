@@ -61,10 +61,7 @@ describe("TakeService", () => {
         Effect.gen(function* () {
           const takeService = yield* TakeService;
 
-          return yield* takeService.create(
-            "non-existent-interview",
-            "user-1"
-          );
+          return yield* takeService.create("non-existent-interview", "user-1");
         })
       );
 

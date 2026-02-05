@@ -7,6 +7,9 @@ export async function loader() {
   const stateCookies = createOAuthStateCookies(state, codeVerifier);
 
   return redirect(url.toString(), {
-    headers: stateCookies.map((cookie): [string, string] => ["Set-Cookie", cookie]),
+    headers: stateCookies.map((cookie): [string, string] => [
+      "Set-Cookie",
+      cookie,
+    ]),
   });
 }

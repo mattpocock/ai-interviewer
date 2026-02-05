@@ -124,11 +124,7 @@ describe("InterviewService", () => {
       const exit = await runTestExit(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const created = yield* service.create("user-1", "My Interview", null);
           return yield* service.getById(created.id, "user-2");
         })
       );
@@ -167,11 +163,7 @@ describe("InterviewService", () => {
       const result = await runTest(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const created = yield* service.create("user-1", "My Interview", null);
           return yield* service.update(created.id, "user-1", {
             description: "New description",
           });
@@ -204,11 +196,7 @@ describe("InterviewService", () => {
       const exit = await runTestExit(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const created = yield* service.create("user-1", "My Interview", null);
           return yield* service.update(created.id, "user-2", {
             title: "Hacked Title",
           });
@@ -230,11 +218,7 @@ describe("InterviewService", () => {
       const result = await runTest(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const created = yield* service.create("user-1", "My Interview", null);
           yield* service.delete(created.id, "user-1");
 
           // Verify it's gone
@@ -267,11 +251,7 @@ describe("InterviewService", () => {
       const exit = await runTestExit(
         Effect.gen(function* () {
           const service = yield* InterviewService;
-          const created = yield* service.create(
-            "user-1",
-            "My Interview",
-            null
-          );
+          const created = yield* service.create("user-1", "My Interview", null);
           return yield* service.delete(created.id, "user-2");
         })
       );

@@ -25,7 +25,10 @@ export const UserRepositoryLive = Layer.effect(
       findById: (id) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.select().from(users).where(eq(users.id, id));
+            const result = await db
+              .select()
+              .from(users)
+              .where(eq(users.id, id));
             return Option.fromNullable(result[0] ? rowToUser(result[0]) : null);
           },
           catch: () => Option.none<User>(),
@@ -34,7 +37,10 @@ export const UserRepositoryLive = Layer.effect(
       findByGoogleId: (googleId) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.select().from(users).where(eq(users.googleId, googleId));
+            const result = await db
+              .select()
+              .from(users)
+              .where(eq(users.googleId, googleId));
             return Option.fromNullable(result[0] ? rowToUser(result[0]) : null);
           },
           catch: () => Option.none<User>(),

@@ -40,7 +40,9 @@ export const InterviewServiceLive = Layer.effect(
           const maybeInterview = yield* interviewRepo.findById(id);
 
           if (Option.isNone(maybeInterview)) {
-            return yield* Effect.fail(new InterviewNotFoundError({ interviewId: id }));
+            return yield* Effect.fail(
+              new InterviewNotFoundError({ interviewId: id })
+            );
           }
 
           const interview = maybeInterview.value;
@@ -66,7 +68,9 @@ export const InterviewServiceLive = Layer.effect(
           const maybeInterview = yield* interviewRepo.findById(id);
 
           if (Option.isNone(maybeInterview)) {
-            return yield* Effect.fail(new InterviewNotFoundError({ interviewId: id }));
+            return yield* Effect.fail(
+              new InterviewNotFoundError({ interviewId: id })
+            );
           }
 
           if (maybeInterview.value.userId !== userId) {
@@ -80,7 +84,9 @@ export const InterviewServiceLive = Layer.effect(
           const updated = yield* interviewRepo.update(id, data);
 
           if (Option.isNone(updated)) {
-            return yield* Effect.fail(new InterviewNotFoundError({ interviewId: id }));
+            return yield* Effect.fail(
+              new InterviewNotFoundError({ interviewId: id })
+            );
           }
 
           return updated.value;
@@ -91,7 +97,9 @@ export const InterviewServiceLive = Layer.effect(
           const maybeInterview = yield* interviewRepo.findById(id);
 
           if (Option.isNone(maybeInterview)) {
-            return yield* Effect.fail(new InterviewNotFoundError({ interviewId: id }));
+            return yield* Effect.fail(
+              new InterviewNotFoundError({ interviewId: id })
+            );
           }
 
           if (maybeInterview.value.userId !== userId) {

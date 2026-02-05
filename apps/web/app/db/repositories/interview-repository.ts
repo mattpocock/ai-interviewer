@@ -25,8 +25,13 @@ export const InterviewRepositoryLive = Layer.effect(
       findById: (id) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.select().from(interviews).where(eq(interviews.id, id));
-            return Option.fromNullable(result[0] ? rowToInterview(result[0]) : null);
+            const result = await db
+              .select()
+              .from(interviews)
+              .where(eq(interviews.id, id));
+            return Option.fromNullable(
+              result[0] ? rowToInterview(result[0]) : null
+            );
           },
           catch: () => Option.none<Interview>(),
         }).pipe(Effect.orElse(() => Effect.succeed(Option.none<Interview>()))),
@@ -34,7 +39,10 @@ export const InterviewRepositoryLive = Layer.effect(
       findByUserId: (userId) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.select().from(interviews).where(eq(interviews.userId, userId));
+            const result = await db
+              .select()
+              .from(interviews)
+              .where(eq(interviews.userId, userId));
             return result.map(rowToInterview);
           },
           catch: () => [] as Interview[],
@@ -69,7 +77,9 @@ export const InterviewRepositoryLive = Layer.effect(
               })
               .where(eq(interviews.id, id))
               .returning();
-            return Option.fromNullable(result[0] ? rowToInterview(result[0]) : null);
+            return Option.fromNullable(
+              result[0] ? rowToInterview(result[0]) : null
+            );
           },
           catch: () => Option.none<Interview>(),
         }).pipe(Effect.orElse(() => Effect.succeed(Option.none<Interview>()))),
@@ -77,7 +87,10 @@ export const InterviewRepositoryLive = Layer.effect(
       delete: (id) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.delete(interviews).where(eq(interviews.id, id)).returning();
+            const result = await db
+              .delete(interviews)
+              .where(eq(interviews.id, id))
+              .returning();
             return result.length > 0;
           },
           catch: () => false,

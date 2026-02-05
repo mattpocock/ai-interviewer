@@ -7,7 +7,8 @@ export interface DatabaseService {
   readonly db: Database;
 }
 
-export const DatabaseService = Context.GenericTag<DatabaseService>("DatabaseService");
+export const DatabaseService =
+  Context.GenericTag<DatabaseService>("DatabaseService");
 
 // Live implementation that uses the real database
 export const DatabaseServiceLive = Layer.sync(DatabaseService, () => ({

@@ -1,7 +1,10 @@
 import { redirect } from "react-router";
 import { Effect, Option } from "effect";
 import { UserRepository, type User } from "@ai-interviewer/shared";
-import { validateGoogleCallback, getGoogleUserInfo } from "~/auth/google.server";
+import {
+  validateGoogleCallback,
+  getGoogleUserInfo,
+} from "~/auth/google.server";
 import {
   createSession,
   createSessionCookie,
@@ -21,7 +24,8 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   const cookieHeader = request.headers.get("Cookie");
-  const { state: storedState, codeVerifier } = getOAuthStateFromCookies(cookieHeader);
+  const { state: storedState, codeVerifier } =
+    getOAuthStateFromCookies(cookieHeader);
 
   if (!storedState || !codeVerifier || state !== storedState) {
     return redirect("/auth/error?error=invalid_state");
@@ -35,7 +39,11 @@ export async function loader({ request }: Route.LoaderArgs) {
     const googleUser = await getGoogleUserInfo(tokens.accessToken());
 
     // Find or create user in database
-    const findOrCreateUser: Effect.Effect<User, never, typeof UserRepository.Service> = Effect.gen(function* () {
+    const findOrCreateUser: Effect.Effect<
+      User,
+      never,
+      typeof UserRepository.Service
+    > = Effect.gen(function* () {
       const userRepo = yield* UserRepository;
       const existingUser = yield* userRepo.findByGoogleId(googleUser.sub);
 
@@ -68,7 +76,10 @@ export async function loader({ request }: Route.LoaderArgs) {
     const sessionCookie = createSessionCookie(sessionToken);
 
     return redirect("/", {
-      headers: [...clearCookies.map((c): [string, string] => ["Set-Cookie", c]), ["Set-Cookie", sessionCookie]],
+      headers: [
+        ...clearCookies.map((c): [string, string] => ["Set-Cookie", c]),
+        ["Set-Cookie", sessionCookie],
+      ],
     });
   } catch (error) {
     console.error("OAuth callback error:", error);

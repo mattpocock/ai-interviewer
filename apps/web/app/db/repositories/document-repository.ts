@@ -25,8 +25,13 @@ export const DocumentRepositoryLive = Layer.effect(
       findById: (id) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.select().from(documents).where(eq(documents.id, id));
-            return Option.fromNullable(result[0] ? rowToDocument(result[0]) : null);
+            const result = await db
+              .select()
+              .from(documents)
+              .where(eq(documents.id, id));
+            return Option.fromNullable(
+              result[0] ? rowToDocument(result[0]) : null
+            );
           },
           catch: () => Option.none<Document>(),
         }).pipe(Effect.orElse(() => Effect.succeed(Option.none<Document>()))),
@@ -34,7 +39,10 @@ export const DocumentRepositoryLive = Layer.effect(
       findByInterviewId: (interviewId) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.select().from(documents).where(eq(documents.interviewId, interviewId));
+            const result = await db
+              .select()
+              .from(documents)
+              .where(eq(documents.interviewId, interviewId));
             return result.map(rowToDocument);
           },
           catch: () => [] as Document[],
@@ -69,7 +77,9 @@ export const DocumentRepositoryLive = Layer.effect(
               })
               .where(eq(documents.id, id))
               .returning();
-            return Option.fromNullable(result[0] ? rowToDocument(result[0]) : null);
+            return Option.fromNullable(
+              result[0] ? rowToDocument(result[0]) : null
+            );
           },
           catch: () => Option.none<Document>(),
         }).pipe(Effect.orElse(() => Effect.succeed(Option.none<Document>()))),
@@ -77,7 +87,10 @@ export const DocumentRepositoryLive = Layer.effect(
       delete: (id) =>
         Effect.tryPromise({
           try: async () => {
-            const result = await db.delete(documents).where(eq(documents.id, id)).returning();
+            const result = await db
+              .delete(documents)
+              .where(eq(documents.id, id))
+              .returning();
             return result.length > 0;
           },
           catch: () => false,

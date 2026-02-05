@@ -18,19 +18,13 @@ export interface DocumentService {
   readonly listByInterview: (
     interviewId: string,
     userId: string
-  ) => Effect.Effect<
-    Document[],
-    InterviewNotFoundError | UnauthorizedError
-  >;
+  ) => Effect.Effect<Document[], InterviewNotFoundError | UnauthorizedError>;
   readonly create: (
     interviewId: string,
     userId: string,
     title: string,
     content: string
-  ) => Effect.Effect<
-    Document,
-    InterviewNotFoundError | UnauthorizedError
-  >;
+  ) => Effect.Effect<Document, InterviewNotFoundError | UnauthorizedError>;
   readonly update: (
     id: string,
     userId: string,

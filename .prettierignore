@@ -1,0 +1,6 @@
+node_modules
+dist
+build
+.react-router
+*.lock
+pnpm-lock.yaml

@@ -59,6 +59,7 @@ When working on UI changes, use the Playwright MCP server to verify the applicat
 4. Test interactive elements (buttons, forms, navigation) work as expected
 
 Example usage:
+
 - "Use playwright mcp to navigate to http://localhost:3000 and take a screenshot"
 - "Use playwright mcp to click the login button and verify the form appears"
 - "Use playwright mcp to fill in the form and submit it"

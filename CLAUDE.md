@@ -3,6 +3,7 @@
 ## Project Overview
 
 A two-component system for conducting AI-powered interviews:
+
 - **Web Application** (React Router 7 on Vercel): Full-featured interface
 - **Mobile Application** (Expo/React Native): Lightweight mobile interface
 
@@ -39,6 +40,7 @@ npm run db:studio    # Open Drizzle Studio
 ### What Makes a Good Test
 
 A good test:
+
 - Tests **external behavior** through public interfaces, not implementation details
 - Is **deterministic** - no flaky dependencies on timing, network, or environment
 - Uses **dependency injection** to swap real services for test doubles
@@ -48,6 +50,7 @@ A good test:
 ### What Makes a Shit Test
 
 Do NOT write tests that:
+
 - Test TypeScript types at runtime (the compiler already checks this)
 - Simply assign values and read them back
 - Test that object shapes match interfaces
@@ -55,6 +58,7 @@ Do NOT write tests that:
 - Test private methods or internal state
 
 **Example of a shit test:**
+
 ```typescript
 // ❌ BAD - Tests nothing. TypeScript already ensures this compiles.
 it("should allow creating Interview objects", () => {
@@ -72,6 +76,7 @@ it("should allow creating Interview objects", () => {
 ```
 
 **Example of a good test:**
+
 ```typescript
 // ✅ GOOD - Tests actual behavior through public interface
 it("should fail with UnauthorizedError when user does not own interview", async () => {

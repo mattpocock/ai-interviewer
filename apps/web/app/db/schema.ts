@@ -8,7 +8,10 @@ import {
 } from "drizzle-orm/pg-core";
 
 // Enums
-export const takeStageEnum = pgEnum("take_stage", ["pre-interview", "interview"]);
+export const takeStageEnum = pgEnum("take_stage", [
+  "pre-interview",
+  "interview",
+]);
 export const messageRoleEnum = pgEnum("message_role", ["user", "assistant"]);
 
 // Users table
@@ -18,7 +21,9 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   avatarUrl: text("avatar_url"),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 // Interviews table
@@ -29,8 +34,12 @@ export const interviews = pgTable("interviews", {
     .references(() => users.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 // Documents table
@@ -41,8 +50,12 @@ export const documents = pgTable("documents", {
     .references(() => interviews.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 255 }).notNull(),
   content: text("content").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 // Takes table
@@ -52,8 +65,12 @@ export const takes = pgTable("takes", {
     .notNull()
     .references(() => interviews.id, { onDelete: "cascade" }),
   stage: takeStageEnum("stage").notNull().default("pre-interview"),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 // Messages table
@@ -64,8 +81,13 @@ export const messages = pgTable("messages", {
     .references(() => takes.id, { onDelete: "cascade" }),
   role: messageRoleEnum("role").notNull(),
   content: text("content").notNull(),
-  enabledDocumentIds: uuid("enabled_document_ids").array().notNull().default([]),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  enabledDocumentIds: uuid("enabled_document_ids")
+    .array()
+    .notNull()
+    .default([]),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 // Type exports for use with Drizzle's infer types

@@ -9,4 +9,7 @@ export default [
   route("auth/error", "routes/auth.error.tsx"),
   // API routes
   route("api/auth/me", "routes/api.auth.me.ts"),
+  // Interview API routes
+  route("api/interviews", "routes/api.interviews.ts"),
+  route("api/interviews/:id", "routes/api.interviews.$id.ts"),
 ] satisfies RouteConfig;

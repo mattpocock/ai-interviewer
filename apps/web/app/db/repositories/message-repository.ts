@@ -1,4 +1,4 @@
-import { Effect, Layer, Option } from "effect";
+import { Effect, Layer } from "effect";
 import { eq, asc } from "drizzle-orm";
 import { MessageRepository } from "@ai-interviewer/shared";
 import type { Message, MessageRole } from "@ai-interviewer/shared";

@@ -9,11 +9,7 @@ import {
   DocumentRepositoryMock,
   MessageRepositoryMock,
 } from "../testing/mock-repositories.js";
-import {
-  TakeNotFoundError,
-  InterviewNotFoundError,
-  UnauthorizedError,
-} from "../errors.js";
+import { TakeNotFoundError, UnauthorizedError } from "../errors.js";
 
 const RepositoryLayer = Layer.mergeAll(
   InterviewRepositoryMock,

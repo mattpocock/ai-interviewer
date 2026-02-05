@@ -16,6 +16,7 @@ See Issue #1 for the full PRD.
 npm run dev          # Start dev server (apps/web)
 npm run build        # Build all packages
 npm run typecheck    # Run TypeScript type checking
+npm run lint         # Run ESLint
 
 # Testing
 npm run test         # Run all tests
@@ -27,6 +28,18 @@ npm run db:migrate   # Run migrations
 npm run db:push      # Push schema to database
 npm run db:studio    # Open Drizzle Studio
 ```
+
+## Feedback Loops
+
+Before committing, run these commands to ensure code quality:
+
+```bash
+npm run lint         # ESLint (catches style issues, React hooks rules, same-type parameter issues)
+npm run typecheck    # TypeScript type checking
+npm run test         # Run all tests
+```
+
+The pre-commit hook runs these automatically via Husky.
 
 ## Architecture
 

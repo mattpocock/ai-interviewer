@@ -1,7 +1,7 @@
 import type { Route } from "./+types/home";
 import { getOptionalUser } from "~/auth/require-auth.server";
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_args: Route.MetaArgs) {
   return [
     { title: "AI Interviewer" },
     { name: "description", content: "AI-powered interview assistant" },

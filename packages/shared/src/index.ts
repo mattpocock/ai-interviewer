@@ -1,5 +1,6 @@
 // Shared types and schemas for AI Interviewer
 
+// Types
 export interface Interview {
   id: string;
   userId: string;
@@ -47,3 +48,12 @@ export interface User {
   avatarUrl: string | null;
   createdAt: Date;
 }
+
+// Errors
+export * from "./errors.js";
+
+// Repository interfaces
+export * from "./repository.js";
+
+// Services
+export * from "./services/index.js";
